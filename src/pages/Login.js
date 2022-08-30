@@ -7,7 +7,7 @@ import { createUser } from '../services/userAPI';
 class Login extends React.Component {
   state = {
     userName: '',
-    SaveBtnDisabled: true,
+    saveBtnDisabled: true,
     loading: false,
     redirect: false,
   };
@@ -18,9 +18,9 @@ class Login extends React.Component {
       const { userName } = this.state;
       const MIN_NAME_LENGTH = 3;
       if (userName.length >= MIN_NAME_LENGTH) {
-        this.setState({ SaveBtnDisabled: false });
+        this.setState({ saveBtnDisabled: false });
       } else {
-        this.setState({ SaveBtnDisabled: true });
+        this.setState({ saveBtnDisabled: true });
       }
     });
   };
@@ -33,7 +33,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { userName, SaveBtnDisabled, loading, redirect } = this.state;
+    const { userName, saveBtnDisabled, loading, redirect } = this.state;
     return (
       redirect ? <Redirect to="/search" />
         : (
@@ -57,7 +57,7 @@ class Login extends React.Component {
                   name="submitBtn"
                   type="button"
                   data-testid="login-submit-button"
-                  disabled={ SaveBtnDisabled }
+                  disabled={ saveBtnDisabled }
                   onClick={ this.handleClickLogin }
                 >
                   Entrar
