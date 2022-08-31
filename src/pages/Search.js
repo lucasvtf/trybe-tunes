@@ -1,11 +1,12 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import Loading from '../Components/Loading';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends React.Component {
   state = {
+    artist: '',
     inputSearch: '',
     loading: false,
     searchBtnDisabled: true,
@@ -25,19 +26,15 @@ class Search extends React.Component {
     });
   };
 
-  handleClick = () => {
-    this.setState({ loading: true });
-    this.fecthAlbumAPI();
-  };
-
-  fecthAlbumAPI = async () => {
+  handleClick = async () => {
     const { inputSearch } = this.state;
+    this.setState({ loading: true, artist: inputSearch, inputSearch: '' });
     const data = await searchAlbumsAPI(inputSearch);
     this.setState({ searchResult: data, loading: false });
   };
 
   render() {
-    const { inputSearch, searchBtnDisabled, searchResult, loading } = this.state;
+    const { inputSearch, searchBtnDisabled, searchResult, loading, artist } = this.state;
     return (
       <div data-testid="page-search">
         <Header />
@@ -65,23 +62,33 @@ class Search extends React.Component {
               Prucurar
             </button>
           </form>)}
-        <h2>{`Resultado de álbuns de: ${inputSearch}`}</h2>
         <div>
-          <ul>
-            {searchResult.map((album) => (
-              <li key={ album.artistId }>
-                <img src={ album.artworkUrl100 } alt={ album.artistName } />
-                <h4>{album.artistName}</h4>
-                <h5>{album.collectionName}</h5>
-                {/*  <Link
-                  to="/album/:id"
-                  data-testid={ `link-to-album-${collectionId}` }
-                >
-                  Perfil
+          {
+            searchResult.length === 0
+              ? <p>Nenhum álbum foi encontrado</p>
+              : (
+                <ul>
+                  <div>
+                    <p>{`Resultado de álbuns de: ${artist}`}</p>
+                    {searchResult
+                      .map(({
+                        collectionId, artistName, artworkUrl100, collectionName,
+                      }) => (
+                        <Link
+                          key={ collectionId }
+                          to={ `/album/${collectionId}` }
+                          data-testid={ `link-to-album-${collectionId}` }
+                        >
+                          <img src={ artworkUrl100 } alt={ artistName } />
+                          <h4>{artistName}</h4>
+                          <h5>{collectionName}</h5>
+                          Perfil
+                        </Link>
+                      ))}
+                  </div>
+                </ul>)
+          }
 
-                </Link> */}
-              </li>))}
-          </ul>
         </div>
       </div>
     );
