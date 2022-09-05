@@ -10,7 +10,7 @@ class MusicCard extends React.Component {
   };
 
   componentDidMount() {
-
+    this.isChecked();
   }
 
   handleCheck = async () => {
@@ -25,6 +25,12 @@ class MusicCard extends React.Component {
       await addSong(album);
       this.setState({ loading: false, checked: true });
     }
+  };
+
+  isChecked = () => {
+    const { favorites, album } = this.props;
+    const check = favorites.some((track) => track.trackId === album.trackId);
+    this.setState({ checked: check });
   };
 
   render() {
@@ -59,6 +65,8 @@ class MusicCard extends React.Component {
 MusicCard.propTypes = {
   trackName: PropTypes.string,
   previewUrl: PropTypes.string,
+  trackId: PropTypes.string,
+  album: PropTypes.object,
 }.isRequired;
 
 export default MusicCard;
