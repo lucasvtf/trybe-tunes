@@ -51,6 +51,7 @@ class MusicCard extends React.Component {
         <label htmlFor="favoriteCheck">
           Favorita
           <input
+            className="material-symbols-outlined"
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
             onChange={ this.handleCheck }

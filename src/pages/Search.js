@@ -36,57 +36,89 @@ class Search extends React.Component {
   render() {
     const { inputSearch, searchBtnDisabled, searchResult, loading, artist } = this.state;
     return (
-      <div data-testid="page-search">
+      <div data-testid="page-search" className="bg-gray-300 min-h-screen">
         <Header />
         {loading && <Loading />}
         {!loading
         && (
-          <form>
-            <label htmlFor="searchInput">
-              <input
-                name="inputSearch"
-                type="text"
-                placeholder="Digite o nome do Artista"
-                value={ inputSearch }
-                onChange={ this.handleChange }
-                data-testid="search-artist-input"
-              />
-            </label>
-            <button
-              name="searchBtn"
-              type="button"
-              data-testid="search-artist-button"
-              disabled={ searchBtnDisabled }
-              onClick={ this.handleClick }
-            >
-              Prucurar
-            </button>
-          </form>)}
+          <div className="flex justify-center bg-gray-300 min-h-fit m-5">
+            <form>
+              <label htmlFor="searchInput">
+                <input
+                  className="rounded border-none
+                  placeholder:text-center p-2 m-2 text-xl bg-gray-200"
+                  name="inputSearch"
+                  type="text"
+                  placeholder="Digite o nome do Artista"
+                  value={ inputSearch }
+                  onChange={ this.handleChange }
+                  data-testid="search-artist-input"
+                />
+              </label>
+              <button
+                className="
+              rounded text-white bg-black text-xl m-2 p-2"
+                name="searchBtn"
+                type="button"
+                data-testid="search-artist-button"
+                disabled={ searchBtnDisabled }
+                onClick={ this.handleClick }
+              >
+                Procurar
+              </button>
+            </form>
+          </div>)}
         <div>
           {
             searchResult.length === 0
-              ? <p>Nenhum álbum foi encontrado</p>
+              ? (
+                <p
+                  className="
+              text-xl text-center font-bold"
+                >
+                  Nenhum álbum foi encontrado
+
+                </p>
+              )
               : (
-                <ul>
-                  <div>
-                    <p>{`Resultado de álbuns de: ${artist}`}</p>
+                <div>
+                  <p
+                    className="
+              text-xl text-start font-bold"
+                  >
+                    {`Resultado de álbuns de: ${artist}`}
+                  </p>
+                  <ul className="flex flex-wrap items-center">
                     {searchResult
                       .map(({
                         collectionId, artistName, artworkUrl100, collectionName,
                       }) => (
-                        <Link
+                        <li
                           key={ collectionId }
-                          to={ `/album/${collectionId}` }
-                          data-testid={ `link-to-album-${collectionId}` }
+                          className="hover:border w-64 h-64 m-5 p-16"
                         >
-                          <img src={ artworkUrl100 } alt={ artistName } />
-                          <h4>{artistName}</h4>
-                          <h5>{collectionName}</h5>
-                          Perfil
-                        </Link>
+                          <Link
+                            to={ `/album/${collectionId}` }
+                            data-testid={ `link-to-album-${collectionId}` }
+                          >
+                            <img src={ artworkUrl100 } alt={ artistName } />
+                            <h4
+                              className="truncate text-base"
+                            >
+                              {artistName}
+                            </h4>
+                            <h5
+                              className="truncate text-base"
+                            >
+                              {
+                                collectionName
+                              }
+                            </h5>
+                          </Link>
+                        </li>
                       ))}
-                  </div>
-                </ul>)
+                  </ul>
+                </div>)
           }
 
         </div>
