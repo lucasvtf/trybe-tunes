@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import Loading from '../Components/Loading';
+import Card from '../Components/Card';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends React.Component {
@@ -88,39 +88,22 @@ class Search extends React.Component {
                   >
                     {`Resultado de álbuns de: ${artist}`}
                   </p>
-                  <ul className="flex flex-wrap items-center">
+                  <section className="flex flex-wrap place-content-evenly pb-5">
                     {searchResult
                       .map(({
                         collectionId, artistName, artworkUrl100, collectionName,
                       }) => (
-                        <li
+                        <Card
                           key={ collectionId }
-                          className="hover:border w-64 h-64 m-5 p-16"
-                        >
-                          <Link
-                            to={ `/album/${collectionId}` }
-                            data-testid={ `link-to-album-${collectionId}` }
-                          >
-                            <img src={ artworkUrl100 } alt={ artistName } />
-                            <h4
-                              className="truncate text-base"
-                            >
-                              {artistName}
-                            </h4>
-                            <h5
-                              className="truncate text-base"
-                            >
-                              {
-                                collectionName
-                              }
-                            </h5>
-                          </Link>
-                        </li>
+                          albumId={ collectionId }
+                          imgURL={ artworkUrl100 }
+                          artistName={ artistName }
+                          albumName={ collectionName }
+                        />
                       ))}
-                  </ul>
+                  </section>
                 </div>)
           }
-
         </div>
       </div>
     );
