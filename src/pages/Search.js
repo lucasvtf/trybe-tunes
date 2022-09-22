@@ -84,7 +84,7 @@ class Search extends React.Component {
                 <div>
                   <p
                     className="
-              text-xl text-start font-bold"
+              text-xl text-center font-bold"
                   >
                     {`Resultado de álbuns de: ${artist}`}
                   </p>
